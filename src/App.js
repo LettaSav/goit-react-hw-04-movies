@@ -1,17 +1,13 @@
 import { Route, NavLink, Switch } from 'react-router-dom';
-import { useState } from 'react';
 
 import Homepage from './Views/Homepage';
-
 import MoviesPage from './Views/MoviesPage';
 
 function App() {
-  const [page, setPage] = useState(1);
-
   return (
     <div className="App">
-      <ul>
-        <li>
+      <ul class="links">
+        <li class="links_item">
           <NavLink
             exact
             to="/"
@@ -21,7 +17,7 @@ function App() {
             Home
           </NavLink>
         </li>
-        <li>
+        <li class="links_item">
           <NavLink
             to="/movies"
             className="NavLink"
