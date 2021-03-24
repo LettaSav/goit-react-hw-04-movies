@@ -1,27 +1,35 @@
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import useStyles from './style';
-import { Pagination } from '@material-ui/lab';
-
+import Button from '../Components/Button';
+import Not_Found from '../img/Not_Found.jpg';
 import * as apiService from '.././service/apiService';
 
 const Homepage = () => {
-  const location = useLocation();
   const [movies, setMovies] = useState([]);
-  const [totalPage, setTotalPage] = useState(1);
-  const history = useHistory();
-
-  const page = new URLSearchParams(location.search).get('page') ?? 1;
+  const [page, setPage] = useState(1);
 
   const classes = useStyles();
+
+  const scroll = () => {
+    window.scrollTop({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
+  };
 
   useEffect(() => {
     apiService
       .getPopular(page)
-      .then(({ results, total_pages }) => {
+      .then(({ results, page }) => {
         setMovies(results);
-        setTotalPage(total_pages);
+        setPage(page);
+      })
+      .then(() => {
+        if (page !== 1) {
+          scroll();
+        }
       })
       .catch(error =>
         toast(error.message, {
@@ -29,8 +37,9 @@ const Homepage = () => {
         }),
       );
   }, [page]);
-  const onHandlePage = (event, page) => {
-    history.push({ ...location, search: `page=${page}` });
+
+  const currentPageHandler = () => {
+    setPage(prevState => prevState + 1);
   };
 
   return (
@@ -39,14 +48,13 @@ const Homepage = () => {
       <ul className={classes.movieTrend}>
         {movies.map(movie => (
           <li key={movie.id} className={classes.movieItem}>
-            <Link
-              to={{
-                pathname: `movies/${movie.title}${movie.id}`,
-                state: { from: location },
-              }}
-            >
+            <Link to={`/movies/${movie.id}`}>
               <img
-                src={`https://image.tmdb.org/t/p/w400/${movie.poster_path}`}
+                src={
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w400/${movie.poster_path}`
+                    : Not_Found
+                }
                 alt={movie.title}
                 className={classes.movieImg}
               />
@@ -55,17 +63,7 @@ const Homepage = () => {
           </li>
         ))}
       </ul>
-      {totalPage > 1 && (
-        <Pagination
-          variant="outlined"
-          color="primary"
-          count={totalPage}
-          onChange={onHandlePage}
-          page={Number(page)}
-          showFirstButton
-          showLastButton
-        />
-      )}
+      {movies.lenght !== 0 && <Button onClick={currentPageHandler} />}
     </>
   );
 };

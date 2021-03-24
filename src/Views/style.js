@@ -23,6 +23,7 @@ const useStyles = createUseStyles({
     justifyContent: 'center',
   },
   movieItem: {
+    width: 350,
     margin: 0,
     display: 'flex',
     flexDirection: 'column',
@@ -41,6 +42,10 @@ const useStyles = createUseStyles({
   movieImg: {
     borderRadius: 10,
     marginBottom: 20,
+    marginLeft: 0,
+    height: 441,
+    overflow: 'hidden',
+    width: 350,
   },
   movieTitle: {
     color: '#F0F8FF',
@@ -48,7 +53,6 @@ const useStyles = createUseStyles({
     textAlign: 'center',
 
     borderRadius: 10,
-    width: 400,
   },
 });
 

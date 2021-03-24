@@ -3,13 +3,14 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
   loadButton: {
-    margin: '20 auto',
+    margin: ' auto',
     backgroundColor: '#800000',
     padding: 10,
     borderRadius: 50,
     width: 150,
     textAlign: 'center',
-    color: '#212121',
+    color: '#e8c4c4',
+    cursor: 'pointer',
   },
 });
 

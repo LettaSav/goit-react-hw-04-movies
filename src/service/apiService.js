@@ -36,20 +36,16 @@ export function getMovieSearch(query, page) {
   );
 }
 
-// export function getMoviePage(id) {
-//   return apiService(
-//     `/movies/get-movie-details?api_key=${ApiKey}&movie_id=${id}`,
-//   );
-// }
+export function getMoviePage(movieId) {
+  return apiService(`${BASE_URL}/movie/${movieId}?api_key=${ApiKey}`);
+}
 
-// export function getMovieActors(id) {
-//   return apiService(
-//     `/movies/get-movie-credits?api_key=${ApiKey}&movie_id=${id}`,
-//   );
-// }
+export function getMovieActors(movieId) {
+  return apiService(`${BASE_URL}/movie/${movieId}/credits?api_key=${ApiKey}`);
+}
 
-// export function getMovieReviews(id, page) {
-//   return apiService(
-//     `/movies/get-movie-reviews?api_key=${ApiKey}&movie_id=${id}&page=${page}`,
-//   );
-// }
+export function getMovieReviews(movieId, page) {
+  return apiService(
+    `${BASE_URL}/movie/${movieId}/reviews?api_key=${ApiKey}&page=${page}`,
+  );
+}

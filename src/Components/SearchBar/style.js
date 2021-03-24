@@ -5,7 +5,7 @@ const useStyles = createUseStyles({
     width: 500,
     height: 40,
     margin: '30px auto',
-    background: '#444',
+    // background: '#444',
     background: 'rgba(0,0,0,.2)',
     borderRadius: 3,
     border: '1px solid #fff',

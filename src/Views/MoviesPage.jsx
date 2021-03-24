@@ -1,27 +1,26 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import useStyles from './style';
-import { Pagination } from '@material-ui/lab';
+import Button from '../Components/Button';
+import Not_Found from '../img/Not_Found.jpg';
 
-import { Link, useRouteMatch, useLocation, useHistory } from 'react-router-dom';
+import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 import SearchBar from '../Components/SearchBar/SearchBar';
 
 import * as apiService from '../service/apiService';
 
 const MoviePage = () => {
   const classes = useStyles();
-  const history = useHistory();
   const [movies, setMovies] = useState([]);
-  const [totalPage, setTotalPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [query, setQuery] = useState('');
+  const [showBtn, setShowBtn] = useState(false);
   const location = useLocation();
   const { url } = useRouteMatch();
 
-  const page = new URLSearchParams(location.search).get('page') ?? 1;
-
   const scroll = () => {
     window.scrollTo({
-      top: document.documentElement.scrollHeight,
+      top: document.window.scrollHeight,
       behavior: 'smooth',
     });
   };
@@ -30,12 +29,13 @@ const MoviePage = () => {
     if (!query) return;
     apiService
       .getMovieSearch(query, page)
-      .then(({ results, total_pages }) => {
+      .then(({ results, page }) => {
         setMovies(results);
-        setTotalPage(total_pages);
+        setPage(page);
       })
       .then(() => {
-        if (page !== 1) {
+        if (page !== 0) {
+          setShowBtn(true);
           scroll();
         }
       })
@@ -48,11 +48,11 @@ const MoviePage = () => {
 
   const handleSearch = newQuery => {
     setQuery(newQuery);
-    setTotalPage(1);
+    setPage(1);
     setMovies([]);
   };
-  const onHandlePage = (event, page) => {
-    history.push({ ...location, search: `page=${page}` });
+  const currentPageHandler = () => {
+    setPage(prevState => prevState + 1);
   };
   return (
     <>
@@ -62,12 +62,16 @@ const MoviePage = () => {
           <li key={movie.id} className={classes.movieItem}>
             <Link
               to={{
-                pathname: `${url}/${movie.title}${movie.id}`,
+                pathname: `${url}/${movie.id}`,
                 state: { from: location },
               }}
             >
               <img
-                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                src={
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w400/${movie.poster_path}`
+                    : Not_Found
+                }
                 alt={movie.title}
                 className={classes.movieImg}
               />
@@ -76,16 +80,8 @@ const MoviePage = () => {
           </li>
         ))}
       </ul>
-      {totalPage > 1 && (
-        <Pagination
-          variant="outlined"
-          color="primary"
-          count={totalPage}
-          onChange={onHandlePage}
-          page={Number(page)}
-          showFirstButton
-          showLastButton
-        />
+      {movies.lenght !== 0 && showBtn && (
+        <Button onClick={currentPageHandler} />
       )}
     </>
   );

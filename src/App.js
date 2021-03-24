@@ -2,12 +2,13 @@ import { Route, NavLink, Switch } from 'react-router-dom';
 
 import Homepage from './Views/Homepage';
 import MoviesPage from './Views/MoviesPage';
+import MovieDetailsPage from './Views/MovieDetailsPage/MovieDetailsPage';
 
 function App() {
   return (
     <div className="App">
-      <ul class="links">
-        <li class="links_item">
+      <ul className="links">
+        <li className="links_item">
           <NavLink
             exact
             to="/"
@@ -17,7 +18,7 @@ function App() {
             Home
           </NavLink>
         </li>
-        <li class="links_item">
+        <li className="links_item">
           <NavLink
             to="/movies"
             className="NavLink"
@@ -29,7 +30,8 @@ function App() {
       </ul>
       <Switch>
         <Route exact path="/" component={Homepage} />
-        <Route path="/movies" component={MoviesPage} />
+        <Route exact path="/movies" component={MoviesPage} />
+        <Route path="/movies/:slug" component={MovieDetailsPage} />
       </Switch>
     </div>
   );
