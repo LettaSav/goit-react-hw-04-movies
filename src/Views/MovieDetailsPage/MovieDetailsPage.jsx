@@ -49,8 +49,8 @@ function MovieDetailsPage() {
       );
   }, [movieId]);
 
-  const handleGoBack = () => {
-    history.push(location?.state?.from ?? '/');
+  const handleGoBack = e => {
+    history.push(location?.state?.from || '/');
   };
 
   return (
@@ -115,8 +115,8 @@ function MovieDetailsPage() {
               className={classes.loader}
               type="TailSpin"
               color="#800000"
-              height={100}
-              width={100}
+              height={200}
+              width={200}
               timeout={3000} //3 secs
             />
           }

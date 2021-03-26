@@ -1,8 +1,20 @@
 import { Route, NavLink, Switch } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import Loader from 'react-loader-spinner';
 
-import Homepage from './Views/Homepage';
-import MoviesPage from './Views/MoviesPage';
-import MovieDetailsPage from './Views/MovieDetailsPage/MovieDetailsPage';
+const Homepage = lazy(() =>
+  import('./Views/Homepage' /* webpackChunkName: "homepage"*/),
+);
+
+const MoviesPage = lazy(() =>
+  import('./Views/MoviesPage' /* webpackChunkName: "movie-page"*/),
+);
+
+const MovieDetailsPage = lazy(() =>
+  import(
+    './Views/MovieDetailsPage/MovieDetailsPage' /* webpackChunkName: "movie-details-page"*/
+  ),
+);
 
 function App() {
   return (
@@ -28,11 +40,24 @@ function App() {
           </NavLink>
         </li>
       </ul>
-      <Switch>
-        <Route exact path="/" component={Homepage} />
-        <Route exact path="/movies" component={MoviesPage} />
-        <Route path="/movies/:slug" component={MovieDetailsPage} />
-      </Switch>
+      <Suspense
+        fallback={
+          <Loader
+            className="loader"
+            type="TailSpin"
+            color="#800000"
+            height={300}
+            width={300}
+            timeout={3000} //3 secs
+          />
+        }
+      >
+        <Switch>
+          <Route exact path="/" component={Homepage} />
+          <Route exact path="/movies" component={MoviesPage} />
+          <Route path="/movies/:slug" component={MovieDetailsPage} />
+        </Switch>
+      </Suspense>
     </div>
   );
 }

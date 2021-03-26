@@ -28,6 +28,10 @@ function Cast() {
       );
   }, [movieId]);
 
+  const currentPageHandler = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <>
       <ul className={classes.actorsList}>
@@ -48,6 +52,16 @@ function Cast() {
             </li>
           ))}
       </ul>
+      {actors.lenght !== 0 && (
+        <button
+          onClick={currentPageHandler}
+          type="button"
+          className={classes.goBackBtn}
+        >
+          {''}
+          Get back to movie
+        </button>
+      )}
     </>
   );
 }

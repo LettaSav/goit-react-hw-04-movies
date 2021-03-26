@@ -31,7 +31,6 @@ const useStyles = createUseStyles({
     fontFamily: 'Josefin Sans, sans- serif',
     fontSize: 30,
     backgroundColor: '#000000',
-
     objectFit: 'cover',
     transition: 'transform 250ms cubic - bezier(0.4, 0, 0.2, 1)',
     '&:hover': {

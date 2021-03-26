@@ -60,3 +60,6 @@ img {
 .NavLink--active {
   color: rgb(248, 245, 246);
 }
+.loader {
+  margin: auto;
+}

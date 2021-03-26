@@ -114,6 +114,7 @@ const useStyles = createUseStyles({
     borderRadius: 10,
     textAlign: 'center',
     color: '#F0F8FF',
+    marginBottom: 10,
   },
 });
 

@@ -30,6 +30,10 @@ function Reviews() {
       );
   }, [movieId, page]);
 
+  const currentPageHandler = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <>
       <ul className={classes.reviewList}>
@@ -41,6 +45,16 @@ function Reviews() {
             </li>
           ))}
       </ul>
+      {reviews.lenght !== 0 && (
+        <button
+          onClick={currentPageHandler}
+          type="button"
+          className={classes.goBackBtn}
+        >
+          {''}
+          Get back to movie
+        </button>
+      )}
     </>
   );
 }
