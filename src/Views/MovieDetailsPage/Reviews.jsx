@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import * as apiService from '../../service/apiService';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useStyles from './style';
 
@@ -17,7 +17,7 @@ function Reviews() {
       .getMovieReviews(movieId, page)
       .then(({ results, page }) => {
         if (results.length === 0) {
-          toast.error(" We don't have any reviews for this movie.");
+          toast.error(' There is no reviews yet');
           return;
         }
         setReviews(results);
@@ -51,10 +51,10 @@ function Reviews() {
           type="button"
           className={classes.goBackBtn}
         >
-          {''}
           Get back to movie
         </button>
       )}
+      <ToastContainer />
     </>
   );
 }

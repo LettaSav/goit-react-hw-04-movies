@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import useStyles from './style';
 import Button from '../Components/Button';
 import Not_Found from '../img/Not_Found.jpg';
 
-import { Link, useLocation, useRouteMatch } from 'react-router-dom';
+import { Link, useLocation, useRouteMatch, useHistory } from 'react-router-dom';
 import SearchBar from '../Components/SearchBar/SearchBar';
 
 import * as apiService from '../service/apiService';
@@ -17,10 +18,20 @@ const MoviePage = () => {
   const [showBtn, setShowBtn] = useState(false);
   const location = useLocation();
   const { url } = useRouteMatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (location.search === '') {
+      return;
+    }
+
+    const newSearch = new URLSearchParams(location.search).get('query');
+    setQuery(newSearch, page);
+  }, [location.search, page]);
 
   const scroll = () => {
     window.scrollTo({
-      top: document.window.scrollHeight,
+      top: 200,
       behavior: 'smooth',
     });
   };
@@ -30,13 +41,21 @@ const MoviePage = () => {
     apiService
       .getMovieSearch(query, page)
       .then(({ results, page }) => {
+        if (results.length === 0) {
+          toast.error(' There is no results for you search');
+          return;
+        }
         setMovies(results);
         setPage(page);
       })
       .then(() => {
+        if (page !== 1) {
+          scroll();
+        }
+      })
+      .then(() => {
         if (page !== 0) {
           setShowBtn(true);
-          scroll();
         }
       })
       .catch(error =>
@@ -46,10 +65,12 @@ const MoviePage = () => {
       );
   }, [query, page]);
 
-  const handleSearch = newQuery => {
-    setQuery(newQuery);
+  const handleSearch = newSearch => {
+    if (query === newSearch) return;
+    setQuery(newSearch);
     setPage(1);
     setMovies([]);
+    history.push({ ...location, search: `query=${newSearch}&page=1` });
   };
   const currentPageHandler = () => {
     setPage(prevState => prevState + 1);
@@ -63,7 +84,7 @@ const MoviePage = () => {
             <Link
               to={{
                 pathname: `${url}/${movie.id}`,
-                state: { from: location.pathname },
+                state: { from: location },
               }}
             >
               <img
@@ -83,6 +104,7 @@ const MoviePage = () => {
       {movies.lenght !== 0 && showBtn && (
         <Button onClick={currentPageHandler} />
       )}
+      <ToastContainer />
     </>
   );
 };

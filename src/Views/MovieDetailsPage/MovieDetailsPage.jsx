@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import * as apiService from '../../service/apiService';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Not_Found from '../../img/Not_Found.jpg';
 import Loader from 'react-loader-spinner';
 import useStyles from './style';

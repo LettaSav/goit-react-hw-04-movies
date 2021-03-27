@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import useStyles from './style';
 import Button from '../Components/Button';
 import Not_Found from '../img/Not_Found.jpg';
 import * as apiService from '.././service/apiService';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Homepage = () => {
   const [movies, setMovies] = useState([]);
@@ -13,8 +14,8 @@ const Homepage = () => {
   const classes = useStyles();
 
   const scroll = () => {
-    window.scrollTop({
-      top: document.documentElement.scrollHeight,
+    window.scrollTo({
+      top: 200,
       behavior: 'smooth',
     });
   };
@@ -64,6 +65,7 @@ const Homepage = () => {
         ))}
       </ul>
       {movies.lenght !== 0 && <Button onClick={currentPageHandler} />}
+      <ToastContainer />
     </>
   );
 };

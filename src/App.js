@@ -54,8 +54,8 @@ function App() {
       >
         <Switch>
           <Route exact path="/" component={Homepage} />
-          <Route exact path="/movies" component={MoviesPage} />
           <Route path="/movies/:slug" component={MovieDetailsPage} />
+          <Route path="/movies" component={MoviesPage} />
         </Switch>
       </Suspense>
     </div>
